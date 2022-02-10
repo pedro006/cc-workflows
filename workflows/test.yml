@@ -11,46 +11,49 @@ jobs:
               with:
                 url: https://api.hubapi.com/crm/v3/objects/contacts/${{on.webhook.outputs.body.vid}}/associations/credential?limit=500&hapikey=${{secrets.hapi}}
                 method: 'GET'
-            - name: 'get associated tutor profile'
-              uses: actionsflow/axios@v1
-              id: tutorprofile
-              with:
-                url: https://api.hubapi.com/crm/v3/objects/contacts/${{on.webhook.outputs.body.vid}}/associations/tutorprofile?limit=500&hapikey=${{secrets.hapi}}
-                method: 'GET'
-            - uses: actions/github-script@v5
-              id: format
-              with:
-                script: |
-                  var result = ${{ toJson(steps.credentials.outputs.data) }}
-                  var credentialArray = []
+            - run: echo ${{ steps.credentials.outputs.status }}
+            - run: echo ${{ steps.credentials.outputs.data }}
+            - run: echo ${{ steps.credentials.outputs.headers }}
+#             - name: 'get associated tutor profile'
+#               uses: actionsflow/axios@v1
+#               id: tutorprofile
+#               with:
+#                 url: https://api.hubapi.com/crm/v3/objects/contacts/${{on.webhook.outputs.body.vid}}/associations/tutorprofile?limit=500&hapikey=${{secrets.hapi}}
+#                 method: 'GET'
+#             - uses: actions/github-script@v5
+#               id: format
+#               with:
+#                 script: |
+#                   var result = ${{ toJson(steps.credentials.outputs.data) }}
+#                   var credentialArray = []
 
-                  result.forEach(function(e){
-                    credentialArray.push({
-                      "id": ""+e.id+""
-                    })
-                  })
-                  return credentialArray;
-            - name: 'get credentials details'
-              uses: actionsflow/axios@v1
-              id: credentialdetails
-              with:
-                url: https://api.hubapi.com/crm/v3/objects/credential/batch/read?hapikey=${{secrets.hapi}}
-                method: 'POST'
-                data: '{ "properties": [ "credential_type", "school_name" ], "inputs": ${{ steps.format.outputs.result }} }'
-            - uses: actions/github-script@v5
-              id: array
-              with:
-                script: |
-                  var array = ${{ toJson(steps.credentialdetails.outputs.data) }}
-                  var credentialDetailArray = []
-                  array.forEach(function(e){
-                    credentialDetailArray.push(e)
-                  })
-                  return JSON.stringify(credentialDetailArray);
-            - name: 'update profile'
-              uses: actionsflow/axios@v1
-              id: updateprofile
-              with:
-                url: https://api.hubapi.com/crm/v3/objects/tutorprofile/${{steps.tutorprofile.outputs.data[0].id}}?hapikey=${{secrets.hapi}}
-                method: 'PATCH'
-                data: '{ "properties": { "credential_array": "${{steps.array.outputs.result}}" } }'
+#                   result.forEach(function(e){
+#                     credentialArray.push({
+#                       "id": ""+e.id+""
+#                     })
+#                   })
+#                   return credentialArray;
+#             - name: 'get credentials details'
+#               uses: actionsflow/axios@v1
+#               id: credentialdetails
+#               with:
+#                 url: https://api.hubapi.com/crm/v3/objects/credential/batch/read?hapikey=${{secrets.hapi}}
+#                 method: 'POST'
+#                 data: '{ "properties": [ "credential_type", "school_name" ], "inputs": ${{ steps.format.outputs.result }} }'
+#             - uses: actions/github-script@v5
+#               id: array
+#               with:
+#                 script: |
+#                   var array = ${{ toJson(steps.credentialdetails.outputs.data) }}
+#                   var credentialDetailArray = []
+#                   array.forEach(function(e){
+#                     credentialDetailArray.push(e)
+#                   })
+#                   return JSON.stringify(credentialDetailArray);
+#             - name: 'update profile'
+#               uses: actionsflow/axios@v1
+#               id: updateprofile
+#               with:
+#                 url: https://api.hubapi.com/crm/v3/objects/tutorprofile/${{steps.tutorprofile.outputs.data[0].id}}?hapikey=${{secrets.hapi}}
+#                 method: 'PATCH'
+#                 data: '{ "properties": { "credential_array": "${{steps.array.outputs.result}}" } }'

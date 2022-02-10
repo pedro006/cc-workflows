@@ -9,7 +9,7 @@ jobs:
               uses: actionsflow/axios@v1
               id: credentials
               with:
-                url: 'https://api.hubapi.com/crm/v3/objects/contacts/${{on.webhook.outputs.body.vid}}/associations/credential?limit=500&hapikey=${{secrets.HAPI}}'
+                url: 'https://api.hubapi.com/crm/v3/objects/contacts/<<<${{on.webhook.outputs.body.vid}}>>>/associations/credential?limit=500&hapikey=<<<${{secrets.HAPI}}>>>'
                 method: 'GET'
             - run: echo ${{ steps.credentials.outputs.status }}
             - run: echo ${{ steps.credentials.outputs.data }}

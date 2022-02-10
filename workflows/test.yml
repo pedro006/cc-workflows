@@ -5,6 +5,7 @@ jobs:
         name: 'Perform REST API'
         runs-on: ubuntu-latest
         steps:
+            - run: echo ${{ toJson(on.webhook.outputs.body) }}
             - name: 'get associated credentials'
               uses: actionsflow/axios@v1
               id: credentials

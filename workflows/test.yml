@@ -1,7 +1,7 @@
 on:
   webhook:
 jobs:
-    actopm:
+    action:
         name: 'Perform REST API'
         runs-on: ubuntu-latest
         steps:

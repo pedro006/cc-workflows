@@ -19,7 +19,7 @@ jobs:
               uses: actionsflow/axios@v1
               id: credentials
               with:
-                url: 'https://api.hubapi.com/crm/v3/objects/contacts/<<<${{on.webhook.outputs.body.vid}}>>>/associations/credential?limit=500&hapikey=<<<${{secrets.HAPI}}>>>'
+                url: 'https://api.hubapi.com/crm/v3/objects/contacts/${{ on.webhook.outputs.body.vid }}/associations/credential?limit=500&hapikey=${{ secrets.HUBAPI }}'
                 method: 'GET'
             - run: echo ${{ steps.credentials.outputs.status }}
             - run: echo ${{ steps.credentials.outputs.data }}
@@ -28,7 +28,7 @@ jobs:
 #               uses: actionsflow/axios@v1
 #               id: tutorprofile
 #               with:
-#                 url: https://api.hubapi.com/crm/v3/objects/contacts/${{on.webhook.outputs.body.vid}}/associations/tutorprofile?limit=500&hapikey=${{secrets.HAPI}}
+#                 url: https://api.hubapi.com/crm/v3/objects/contacts/${{on.webhook.outputs.body.vid}}/associations/tutorprofile?limit=500&hapikey=${{ secrets.HUBAPI }}
 #                 method: 'GET'
 #             - uses: actions/github-script@v5
 #               id: format

@@ -10,7 +10,7 @@ jobs:
               env:
                 method: ${{ on.webhook.outputs.method }}
                 body: ${{ toJson(on.webhook.outputs.body) }}
-                url: 'https://api.hubapi.com/crm/v3/objects/contacts/$body.vid/associations/credential?limit=500&hapikey=${{ secrets.HUBAPI }}'
+                url: 'https://api.hubapi.com/crm/v3/objects/contacts/${{ on.webhook.outputs.body.vid }}/associations/credential?limit=500&hapikey=${{ secrets.HUBAPI }}'
               run: |
                 echo url $url
 #             - name: 'get associated credentials'

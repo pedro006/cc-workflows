@@ -38,7 +38,7 @@ jobs:
               uses: actionsflow/axios@v1
               id: credentialdetails
               with:
-                url: https://api.hubapi.com/crm/v3/objects/credential/batch/read?hapikey=${{secrets.HAPI}}
+                url: 'https://api.hubapi.com/crm/v3/objects/credential/batch/read?hapikey=${{ secrets.HUBAPI }}'
                 method: 'POST'
                 data: '{ "properties": [ "credential_type", "school_name" ], "inputs": ${{ steps.format.outputs.result }} }'
             - uses: actions/github-script@v5
@@ -55,6 +55,6 @@ jobs:
               uses: actionsflow/axios@v1
               id: updateprofile
               with:
-                url: https://api.hubapi.com/crm/v3/objects/tutorprofile/${{steps.tutorprofile.outputs.data[0].id}}?hapikey=${{secrets.HAPI}}
+                url: 'https://api.hubapi.com/crm/v3/objects/tutorprofile/${{ steps.tutorprofile.outputs.data[0].id }}?hapikey=${{ secrets.HUBAPI }}'
                 method: 'PATCH'
                 data: '{ "properties": { "credential_array": "${{ steps.array.outputs.result }}" } }'

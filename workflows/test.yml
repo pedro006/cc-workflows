@@ -1,11 +1,20 @@
 on:
   webhook:
+    method: post
 jobs:
     action:
         name: 'Perform REST API'
         runs-on: ubuntu-latest
         steps:
-            - run: echo ${{ toJson(on.webhook.outputs.body) }}
+            - name: Print Output
+              env:
+                method: ${{ on.webhook.outputs.method }}
+                body: ${{ toJson(on.webhook.outputs.body) }}
+                headers: ${{ toJson(on.webhook.outputs.headers) }}
+              run: |
+                echo method: $method
+                echo headers $headers
+                echo body: $body
             - name: 'get associated credentials'
               uses: actionsflow/axios@v1
               id: credentials

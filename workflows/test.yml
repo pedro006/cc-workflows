@@ -20,8 +20,7 @@ jobs:
                 url: 'https://api.hubapi.com/crm/v3/objects/contacts/${{ on.webhook.outputs.body.vid }}/associations/tutorprofile?limit=500'
                 method: 'GET'
                 bearer-token: ${{ secrets.HUBAPI }}
-            - run: echo ${{ steps.credentials.outputs.data }}
-            - uses: actions/github-script@v5
+            - uses: satackey/action-js-inline@v0.0.2
               id: format
               with:
                 script: |
